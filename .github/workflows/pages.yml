@@ -27,18 +27,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: 組出網站
         run: |
           mkdir -p _site
           cp -r index.html css js images _site/
 
+      # Firestore 暫時讀不到時不擋部署（網頁會自動隱藏 iPhone 選項；已訂閱的手機會沿用舊資料）
       - name: 產生行事曆檔
+        continue-on-error: true
         run: python3 scripts/build_ics.py _site
 
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
       - id: deployment

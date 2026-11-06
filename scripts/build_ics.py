@@ -145,7 +145,13 @@ def main():
         out = Path(args[2])
     else:
         out = Path(args[0] if args else "_site")
-        events = fetch_events()
+        try:
+            events = fetch_events()
+        except Exception as x:  # noqa: BLE001
+            code = getattr(x, "code", "")
+            hint = "Firestore 安全規則還沒發布，或 events 沒開放公開讀取" if code == 403 else "網路或 Firestore 暫時有問題"
+            print(f"::warning::讀不到 Firestore（{code or x}）：{hint}。這次不更新行事曆檔，網站照常部署。")
+            sys.exit(1)
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     ics_dir = out / "ics"
