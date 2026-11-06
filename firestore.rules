@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// Sky 小組活動公布欄
+// - events：公開欄位，任何人可讀（公布欄、GitHub Actions 產生 ics 都讀這裡）
+// - images：壓縮過的海報，任何人可讀
+// - events_private：報名連結（限定活動）、Zoom、原始公告、待確認事項，只有管理者能讀寫
+// 管理者＝Sonia 的 Firebase Authentication UID
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == "9yMRUwUT7lMgz4T7kyYZKVHxKEy2";
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /images/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /events_private/{eventId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 其他所有路徑一律關閉
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

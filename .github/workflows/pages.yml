@@ -1,0 +1,45 @@
+# 部署公布欄到 GitHub Pages，並從 Firestore 重新產生 iPhone 行事曆檔（.ics）
+# - 推程式碼到 main 時
+# - 每小時一次（活動在後台改完，最慢一小時後 iPhone 訂閱會更新）
+# - 也可以在 Actions 頁面手動按「Run workflow」立刻更新
+name: Deploy board
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 組出網站
+        run: |
+          mkdir -p _site
+          cp -r index.html css js images _site/
+
+      - name: 產生行事曆檔
+        run: python3 scripts/build_ics.py _site
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

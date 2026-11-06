@@ -1,0 +1,6 @@
+_site/
+__pycache__/
+*.backup*.json
+*匯入*.json
+sky-board-backup-*.json
+.DS_Store
