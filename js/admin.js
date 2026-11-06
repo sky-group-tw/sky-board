@@ -1,7 +1,7 @@
 // 後台（只有 Sonia 登入後看得到）
 import * as store from "./store.js";
 import {
-  WD, CATEGORIES, parts, epoch, endMs, weekday, daysUntil, md, esc, newId, newImageId, shareUrl
+  WD, CATEGORIES, parts, epoch, endMs, weekday, daysUntil, md, esc, newId, newImageId, shareUrl, todayTPE, ymd
 } from "./model.js";
 import { toast, copyText, openOverlay, closeOverlay } from "./board.js";
 
@@ -11,7 +11,7 @@ let removedImages = [];    // 這次編輯刪掉的圖片
 let onChanged = () => {};  // 存檔後通知公開版重畫
 
 const CAT_COLOR = { "全教會": "var(--cat-all)", "同工": "var(--cat-staff)", "小組": "var(--cat-group)" };
-const KIND_LABEL = { event: "活動", series: "系列（每週）", meeting: "小組聚會" };
+const KIND_LABEL = { event: "活動", series: "系列（每週）", meeting: "小組聚會", notice: "小組公告" };
 
 function wdOf(s) { return WD[weekday(s)]; }
 function rel(n) { return n < 0 ? "已過" : n === 0 ? "今天" : n === 1 ? "明天" : n + " 天後"; }
@@ -54,8 +54,17 @@ function render() {
       '</div></div>';
   }).join("") : '<div class="empty">還沒有小組聚會，按上面「新增小組聚會」。</div>';
 
+  // 小組公告
+  const notes = sorted.filter(e => e.kind === "notice" && endMs(e) > now - 7 * 864e5);
+  document.getElementById("adm-notes").innerHTML = notes.length ? notes.map(n => {
+    const live = n.date <= ymd(todayTPE()) && endMs(n) > now;
+    return '<div class="arow' + (endMs(n) <= now ? ' past' : '') + '"><div class="adate"><div class="amd">' + md(n.date) + '</div><div class="awd">到 ' + md(n.until || n.date) + '</div></div><div class="abody">' +
+      '<h3>' + esc(n.title) + '</h3><div class="pills">' + (live ? '<span class="pill pub">公開版顯示中</span>' : endMs(n) <= now ? '<span class="pill">已過期</span>' : '<span class="pill">' + md(n.date) + ' 開始顯示</span>') + '</div>' +
+      '<div class="tools"><button type="button" class="btn btn-ghost btn-sm" data-edit="' + esc(n.id) + '">編輯</button></div></div></div>';
+  }).join("") : '<div class="empty">沒有公告。要在小組聚會上方加 P.S.，按「新增小組公告」。</div>';
+
   // 教會活動
-  const evs = sorted.filter(e => e.kind !== "meeting");
+  const evs = sorted.filter(e => e.kind !== "meeting" && e.kind !== "notice");
   const upcoming = evs.filter(e => endMs(e) > now), past = evs.filter(e => endMs(e) <= now).reverse();
   const row = e => {
     const s = e.signup || {}, p = e.private || {};
@@ -98,6 +107,7 @@ function blank(kind) {
     status: "confirmed", images: [], private: { zoom: "", flags: [], announcement: "" }
   };
   if (kind === "series") Object.assign(base, { until: "", weekday: 0, repeatText: "每週主日", start: "00:00", end: "23:59", allDay: true });
+  if (kind === "notice") Object.assign(base, { title: "", category: "小組", date: ymd(todayTPE()), until: "", start: "00:00", end: "23:59" });
   return base;
 }
 
@@ -110,8 +120,16 @@ function formHtml(e) {
   const s = e.signup || {}, p = e.private || {}, dl = e.deadline || {};
   let h = '<form id="ed-form" novalidate>';
   if (isNew) {
-    h += '<div class="seg kind-seg" role="group" aria-label="類型">' + ["event", "series", "meeting"].map(x =>
+    h += '<div class="seg kind-seg" role="group" aria-label="類型">' + ["event", "series", "meeting", "notice"].map(x =>
       '<button type="button" data-kind="' + x + '" aria-pressed="' + (x === k) + '">' + KIND_LABEL[x] + '</button>').join("") + '</div>';
+  }
+  if (k === "notice") {
+    h += '<fieldset><legend>小組公告（顯示在公開版「Sky 小組聚會」上方，標 P.S.）</legend>' +
+      f("公告內容", area("title", e.title, 3)) +
+      '<div class="two">' + f("開始顯示", inp("date", e.date, "date")) + f("顯示到（這天之後自動消失）", inp("until", e.until, "date")) + '</div></fieldset>' +
+      '<div class="ed-actions">' + (isNew ? '' : '<button type="button" class="btn btn-danger" id="ed-delete">刪除</button>') +
+      '<span class="sp"></span><button type="button" class="btn btn-ghost" id="ed-cancel">取消</button><button type="submit" class="btn btn-primary" id="ed-save">儲存</button></div></form>';
+    return h;
   }
   h += '<fieldset><legend>基本</legend>';
   h += f("標題", inp("title", e.title, "text", ' required'));
@@ -213,8 +231,13 @@ function readForm() {
   e.title = v("title") || "";
   if (v("category") !== undefined) e.category = v("category");
   if (v("audience") !== undefined) e.audience = v("audience");
-  e.status = v("status");
+  e.status = v("status") || e.status || "confirmed";
   e.date = v("date") || "";
+  if (e.kind === "notice") {
+    e.until = v("until") || ""; e.category = "小組"; e.start = "00:00"; e.end = "23:59"; e.status = "confirmed";
+    e.private = e.private || { zoom: "", flags: [], announcement: "" };
+    return e;
+  }
   if (e.kind === "series") {
     e.until = v("until") || e.date; e.weekday = Number(v("weekday")); e.repeatText = v("repeatText");
     e.start = "00:00"; e.end = "23:59"; e.allDay = true;
@@ -240,7 +263,8 @@ function readForm() {
 }
 
 function validate(e) {
-  if (!e.title) return "請填標題";
+  if (!e.title) return e.kind === "notice" ? "請填公告內容" : "請填標題";
+  if (e.kind === "notice") return !e.date ? "請填開始顯示日期" : !e.until ? "請填顯示到哪一天" : e.until < e.date ? "結束日期不能早於開始日期" : "";
   if (!e.date) return "請填日期";
   if (e.kind !== "series" && e.status !== "tbd" && (!e.start || (!e.end && !e.endUnknown))) return "請填開始和結束時間（還不確定可以把狀態改成「待確認」）";
   if (e.kind === "series" && e.until && e.until < e.date) return "結束日期不能早於開始日期";
@@ -364,6 +388,7 @@ function bind() {
     else if (t.dataset.dup) dupNextWeek(t.dataset.dup);
     else if (t.id === "adm-new-event") openEditor(blank("event"));
     else if (t.id === "adm-new-meet") openEditor(blank("meeting"));
+    else if (t.id === "adm-new-note") openEditor(blank("notice"));
     else if (t.id === "adm-copy-meets") copyText(meetsText(), "已複製小組時間");
     else if (t.id === "adm-copy-link") copyText(shareUrl(), "已複製分享連結（LINE 會用外部瀏覽器開）");
     else if (t.id === "adm-export") doExport();
@@ -374,7 +399,7 @@ function bind() {
   const ed = document.getElementById("editor");
   ed.addEventListener("click", ev => {
     const t = ev.target.closest("button"); if (!t) return;
-    if (t.dataset.kind) { readForm(); const keep = { title: draft.title, date: draft.date }; const b = blank(t.dataset.kind); if (keep.title && draft.kind !== "meeting") b.title = keep.title; b.date = keep.date; openEditor(b); }
+    if (t.dataset.kind) { readForm(); const keep = { title: draft.title, date: draft.date }; const b = blank(t.dataset.kind); if (keep.title && draft.kind !== "meeting") b.title = keep.title; b.date = keep.date || b.date; openEditor(b); }
     else if (t.dataset.cover) { readForm(); const i = Number(t.dataset.cover); const [im] = draft.images.splice(i, 1); draft.images.unshift(im); draft.images.forEach((x, j) => { if (j > 0 && x.ratio === "natural") x.ratio = ""; }); renderImgs(); }
     else if (t.dataset.rmimg) { readForm(); const i = Number(t.dataset.rmimg); const [im] = draft.images.splice(i, 1); if (!im._new) removedImages.push(im.id); renderImgs(); }
     else if (t.id === "ed-cancel" || t.id === "ed-x") closeOverlay("editor");

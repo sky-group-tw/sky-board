@@ -32,7 +32,7 @@ jobs:
       - name: 組出網站
         run: |
           mkdir -p _site
-          cp -r index.html css js images _site/
+          cp -r index.html manifest.webmanifest sw.js css js images icons _site/
 
       # Firestore 暫時讀不到時不擋部署（網頁會自動隱藏 iPhone 選項；已訂閱的手機會沿用舊資料）
       - name: 產生行事曆檔

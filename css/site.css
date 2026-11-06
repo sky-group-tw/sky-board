@@ -19,18 +19,6 @@
   --radius: 14px;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #111a1e; --surface: #1a262b; --ink: #e8eded; --muted: #9aa7ab; --line: #2b3a40;
-    --alert: #fb923c; --bar: #0b1215; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #111a1e; --surface: #1a262b; --ink: #e8eded; --muted: #9aa7ab; --line: #2b3a40;
-  --alert: #fb923c; --bar: #0b1215; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.25);
-  color-scheme: dark;
-}
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -177,8 +165,8 @@ footer { color: var(--muted); font-size: 13px; padding: 24px 0 40px; border-top:
 /* ---------- 方向 A 覆寫 ---------- */
 .brandbar { background: var(--bar); }
 .brandbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-.brandbar img { height: 22px; width: auto; }
-.brandbar span { color: #c9d1d3; font-size: 13px; letter-spacing: .04em; }
+.unofficial { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .04em; }
+.dot-y { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
 header.top { padding-top: 32px; }
 h1 { font-family: var(--font-display); font-weight: 800; letter-spacing: -.01em; margin: 0 0 6px; }
 h1 .zh { font-family: var(--font-body); font-weight: 900; }
@@ -197,17 +185,13 @@ h1 .zh { font-family: var(--font-body); font-weight: 900; }
 .meet .md, .cal-head h2 { font-family: var(--font-display); }
 
 /* ---------- 頂部導覽列：右上角「後台」 ---------- */
-.brandbar .right { display: flex; align-items: center; gap: 14px; }
 .btn-admin { background: transparent; color: #e8eded; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
 .btn-admin:hover { border-color: #fff; }
-@media (max-width: 420px) { .brandbar span { display: none; } }
 .card-img img:not([src]), .thumb img:not([src]) { visibility: hidden; }
 .card-img img:not([src]) { min-height: 120px; }
 
 /* ---------- 後台 ---------- */
 :root { --private: #7c3aed; --ok: #2a9d8f; }
-:root[data-theme="dark"] { --private: #a78bfa; --ok: #4fc3b4; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --private: #a78bfa; --ok: #4fc3b4; } }
 #admin-view { padding-top: 28px; display: grid; gap: 30px; }
 .adm-head { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between; }
 .adm-head .eyebrow { color: var(--private); }
@@ -298,3 +282,46 @@ legend { font-family: var(--font-display); font-weight: 800; font-size: 13px; le
 .linkbtn { background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; padding: 4px 0; justify-self: start; font-size: 14px; }
 .two { align-items: start; }
 .adm-status:empty { display: none; }
+
+/* ---------- 11/6 晚：官方連結、卡片對齊、詳情、公告、主畫面 ---------- */
+.btn-hope { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn-hope img { height: 13px; width: auto; }
+.btn-hope:hover { filter: brightness(1.2); }
+.muted { color: var(--muted); }
+
+/* 卡片：每張結構一樣、圖片框一樣大，遠看一格一格對齊 */
+.card-hit { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: inherit; }
+.card .card-img, .card-img.natural { aspect-ratio: 16 / 9; position: relative; overflow: hidden; display: block; background: var(--ink); }
+.card-img .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(22px) saturate(1.15); transform: scale(1.2); opacity: .85; }
+.card-img .fg { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; }
+.card-img.noimg { display: grid; place-items: center; padding: 20px; color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 22px; text-align: center; background: linear-gradient(135deg, var(--ink), #2c3d44); }
+.card-body { gap: 8px; }
+.card .when-row .cat { margin-left: auto; }
+.card h3 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(2 * 1.35em); font-size: 19px; }
+.card .meta li > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.flag-row { display: flex; min-width: 0; }
+.flag-row .audience { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.card .deadline { font-size: 13px; padding: 6px 10px; }
+.card .actions { gap: 8px; padding-top: 10px; flex-wrap: nowrap; }
+.card .actions .btn { min-height: 40px; padding: 8px 14px; font-size: 14px; white-space: nowrap; }
+.btn-link { background: none; border: 0; color: var(--ink); padding: 8px 4px !important; margin-left: auto; text-decoration: underline; text-underline-offset: 3px; }
+.btn-link:hover { color: var(--muted); }
+.card.past .card-img .bg, .card.past .card-img .fg { filter: grayscale(.85); }
+
+/* 詳情面板 */
+.sheet.detail .sheet-head { padding: 12px 16px 12px 20px; }
+.detail-img { display: block; width: 100%; border: 0; padding: 0; background: var(--paper); cursor: zoom-in; }
+.detail-img img { width: 100%; max-height: 52vh; object-fit: contain; margin: 0 auto; }
+.detail-body { padding: 18px 20px 22px; display: grid; gap: 10px; }
+.detail-body h3 { font-size: 21px; line-height: 1.35; }
+.detail-body .actions { margin-top: 6px; }
+
+/* 小組公告 P.S. */
+.notice { display: flex; gap: 12px; align-items: flex-start; background: color-mix(in srgb, var(--accent) 30%, var(--surface)); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 16px; margin: 0 0 12px; }
+.notice .ps { flex: none; background: var(--ink); color: var(--accent); font-family: var(--font-display); font-weight: 800; font-size: 13px; padding: 3px 10px; border-radius: 999px; margin-top: 2px; }
+.notice p { margin: 0; font-weight: 700; color: var(--ink); }
+
+/* 加到主畫面步驟 */
+.stepn { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-weight: 800; font-family: var(--font-display); }
+.subscribe .btn { min-height: 42px; }
+.stepn + span b { display: inline; }

@@ -16,7 +16,7 @@ export function epoch(date, time, add) {
 }
 export function startMs(e) { return epoch(e.date, e.start || "00:00"); }
 export function endMs(e) {
-  if (e.kind === "series") return epoch(e.until || e.date, "23:59");
+  if (e.kind === "series" || e.kind === "notice") return epoch(e.until || e.date, "23:59");
   const start = e.start || "00:00", end = e.end || "23:59";
   return epoch(e.date, end, end <= start ? 1 : 0);
 }
@@ -31,7 +31,7 @@ export function esc(s) {
 }
 
 // 用來查詢「最近還沒過期」的活動
-export function endDateOf(e) { return e.kind === "series" ? (e.until || e.date) : e.date; }
+export function endDateOf(e) { return e.kind === "series" || e.kind === "notice" ? (e.until || e.date) : e.date; }
 
 // ---------- 拆成公開／私密 ----------
 const PUBLIC_FIELDS = [
@@ -76,10 +76,21 @@ export function merge(id, pub, priv) {
 
 export function newId(kind, date) {
   const r = Math.random().toString(36).slice(2, 6);
-  const prefix = kind === "meeting" ? "sky" : kind === "series" ? "series" : "ev";
+  const prefix = kind === "meeting" ? "sky" : kind === "series" ? "series" : kind === "notice" ? "note" : "ev";
   return prefix + "-" + (date || "").replace(/-/g, "") + "-" + r;
 }
 export function newImageId() { return "img-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 6); }
+
+// 本週／下週（週一到週日算一週，台北時間）
+export function weekLabel(date) {
+  const t = ymd(todayTPE());
+  const monday = addDays(t, -((weekday(t) + 6) % 7));
+  const n = Math.floor((Date.UTC(...ymdArr(date)) - Date.UTC(...ymdArr(monday))) / 864e5);
+  if (n >= 0 && n < 7) return "本週";
+  if (n >= 7 && n < 14) return "下週";
+  return "";
+}
+function ymdArr(s) { const p = parts(s); return [p.y, p.m - 1, p.d]; }
 
 // 站外分享（LINE 內建瀏覽器改開外部瀏覽器）
 export function shareUrl() {

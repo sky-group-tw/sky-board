@@ -65,7 +65,7 @@ function bind() {
     try {
       const cred = await store.login(document.getElementById("login-email").value.trim(), document.getElementById("login-pw").value);
       if (!store.isAdmin(cred.user)) { msg.textContent = "這個帳號沒有後台權限"; await store.logout(); return; }
-      document.getElementById("login-pw").value = "";
+      document.getElementById("login-pw").value = ""; msg.textContent = "";
       closeOverlay("login");
       user = cred.user;
       enterAdmin();
@@ -104,3 +104,42 @@ store.onAuth(u => {
   if (location.hash === "#admin" && store.isAdmin(u)) enterAdmin();
 });
 if (location.hash === "#admin") setTimeout(() => { if (!store.isAdmin(user)) openLogin(); }, 1200);
+
+// ---------- 加到主畫面（PWA） ----------
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+let installPrompt = null;
+const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const installBtn = document.getElementById("btn-install");
+if (standalone()) installBtn.hidden = true;
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installPrompt = e; });
+window.addEventListener("appinstalled", () => { installBtn.hidden = true; toast("已加到主畫面"); });
+
+const I_HOME = '<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v7M9 11l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+function step(n, html) { return '<div class="opt"><span class="stepn">' + n + '</span><span>' + html + '</span></div>'; }
+installBtn.addEventListener("click", async () => {
+  if (installPrompt) {
+    installPrompt.prompt();
+    const r = await installPrompt.userChoice.catch(() => null);
+    installPrompt = null;
+    if (r && r.outcome === "accepted") installBtn.hidden = true;
+    return;
+  }
+  const ua = navigator.userAgent;
+  const inLine = /\bLine\//i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const android = /Android/i.test(ua);
+  let html;
+  if (inLine) {
+    html = '<a class="opt main" href="./?openExternalBrowser=1">' + I_HOME + '<span><b>先用瀏覽器打開</b><small>LINE 裡面不能加到主畫面，點這裡會改用 ' + (ios ? "Safari" : "Chrome") + ' 開，再按一次「加到主畫面」</small></span></a>';
+  } else if (ios) {
+    html = step(1, '點畫面下方（或網址列旁）的 <b>分享</b> 按鈕 <span aria-hidden="true">⬆︎</span>') +
+      step(2, '往下滑，選 <b>加入主畫面</b>') + step(3, '右上角按 <b>新增</b>');
+  } else if (android) {
+    html = step(1, '點右上角 <b>⋮</b>') + step(2, '選 <b>加到主畫面</b> 或 <b>安裝應用程式</b>');
+  } else {
+    html = step(1, '點網址列右邊的 <b>安裝</b> 圖示') + step(2, '或是用手機打開這個網頁再加到主畫面');
+  }
+  document.getElementById("sheet-title").textContent = "加到主畫面";
+  document.getElementById("sheet-sub").textContent = "加了之後點圖示就能直接打開，像 App 一樣。";
+  document.getElementById("sheet-opts").innerHTML = html;
+  openOverlay("overlay");
+});

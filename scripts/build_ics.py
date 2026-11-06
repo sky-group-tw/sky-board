@@ -157,7 +157,7 @@ def main():
     ics_dir = out / "ics"
     ics_dir.mkdir(parents=True, exist_ok=True)
 
-    usable = [e for e in events if e.get("date") and e.get("status") != "tbd"]
+    usable = [e for e in events if e.get("date") and e.get("status") != "tbd" and e.get("kind") != "notice"]
     # 訂閱檔：最近 60 天內＋之後
     cutoff = (datetime.now(TPE) - timedelta(days=60)).strftime("%Y-%m-%d")
     feed = [e for e in usable if (e.get("endDate") or e["date"]) >= cutoff]
