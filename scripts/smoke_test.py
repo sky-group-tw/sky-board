@@ -22,8 +22,13 @@ async def check(browser, name, viewport, scale, out):
     page.on("pageerror", lambda e: errors.append("頁面錯誤：" + str(e)))
     page.on("console", lambda m: errors.append("主控台：" + m.text) if m.type == "error" else None)
     page.on("requestfailed", lambda r: errors.append("載入失敗：" + r.url[:120]))
-    await page.goto(URL + "?t=" + str(int(time.time())), wait_until="networkidle", timeout=60000)
-    await page.wait_for_timeout(3000)  # 等 Firestore 資料和海報
+    await page.goto(URL + "?t=" + str(int(time.time())), wait_until="load", timeout=60000)
+    # Firestore 會一直保持連線，所以不能等「網路安靜」；改成等畫面出現活動或提示
+    try:
+        await page.wait_for_function("document.querySelector('#board-view .card, #board-view .meet, #board-view .empty:not(:empty)') && !document.querySelector('#board-view').innerText.includes('載入中')", timeout=30000)
+    except Exception:
+        errors.append("30 秒內公布欄沒有出現內容")
+    await page.wait_for_timeout(4000)  # 等海報
     info = await page.evaluate("""() => ({
       title: document.title,
       cards: document.querySelectorAll('#board-view .card').length,
@@ -53,11 +58,12 @@ async def main():
     out.mkdir(parents=True, exist_ok=True)
     async with async_playwright() as p:
         b = await p.chromium.launch()
-        result = {
-            "checkedAt": time.strftime("%Y-%m-%d %H:%M", time.gmtime(time.time() + 8 * 3600)) + "（台北）",
-            "desktop": await check(b, "desktop", {"width": 1280, "height": 900}, 1, out),
-            "mobile": await check(b, "mobile", {"width": 390, "height": 844}, 2, out),
-        }
+        result = {"checkedAt": time.strftime("%Y-%m-%d %H:%M", time.gmtime(time.time() + 8 * 3600)) + "（台北）"}
+        for name, vp, sc in [("desktop", {"width": 1280, "height": 900}, 1), ("mobile", {"width": 390, "height": 844}, 2)]:
+            try:
+                result[name] = await check(b, name, vp, sc, out)
+            except Exception as x:  # noqa: BLE001
+                result[name] = {"errors": ["檢查程式出錯：" + str(x)[:300]]}
         await b.close()
     ok = not result["desktop"]["errors"] and not result["mobile"]["errors"]
     result["ok"] = ok

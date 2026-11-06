@@ -72,12 +72,12 @@ jobs:
           python scripts/smoke_test.py out
       - name: 結果存到 checks 分支
         run: |
-          cd out
+          mkdir -p out && cd out
           git init -q -b checks
           git config user.name "sky-board-bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -q -m "檢查結果 ${{ github.sha }}"
+          git commit -q --allow-empty -m "檢查結果 ${{ github.sha }}"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" checks
       - name: 檢查沒通過就標紅
         if: steps.smoke.outcome == 'failure'
