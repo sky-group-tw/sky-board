@@ -45,3 +45,40 @@ jobs:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # 部署完自動打開正式網站檢查＋截圖，結果放到 checks 分支（Claude 用 git 讀取）
+  # 每小時的排程不跑，省時間
+  check:
+    needs: deploy
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: 安裝瀏覽器
+        run: |
+          pip install -q playwright
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y -q fonts-noto-cjk > /dev/null
+      - name: 打開網站檢查
+        id: smoke
+        continue-on-error: true
+        run: |
+          sleep 20
+          python scripts/smoke_test.py out
+      - name: 結果存到 checks 分支
+        run: |
+          cd out
+          git init -q -b checks
+          git config user.name "sky-board-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -q -m "檢查結果 ${{ github.sha }}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" checks
+      - name: 檢查沒通過就標紅
+        if: steps.smoke.outcome == 'failure'
+        run: exit 1
