@@ -54,6 +54,7 @@ jobs:
     needs: deploy
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -62,6 +63,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: 安裝瀏覽器
+        timeout-minutes: 8
         run: |
           pip install -q playwright
           python -m playwright install --with-deps chromium
