@@ -1,0 +1,9 @@
+{
+  "note": "11/8 小組和 11/14 CRTV（Creatives Team Night） 地點改華視-玻璃屋；11/22 小組備註；新增 12 月場地調整的小組公告",
+  "ops": [
+    {"op": "update", "match": {"kind": "meeting", "date": "2026-11-08"}, "set": {"location": "華視-玻璃屋"}},
+    {"op": "update", "match": {"kind": "event", "titleContains": "Creatives Team Night"}, "set": {"location": "華視-玻璃屋"}},
+    {"op": "update", "match": {"kind": "meeting", "date": "2026-11-22"}, "set": {"note": "因組長和大部分組員有其他安排，會討論是否改時間或休息"}},
+    {"op": "create", "data": {"kind": "notice", "title": "12 月起，小組聚會地點會跟著教會新場地調整，11 月底前公布。", "date": "2026-11-07", "until": "2026-11-30"}}
+  ]
+}
