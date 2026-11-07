@@ -1,0 +1,7 @@
+{
+  "note": "月曆上顯示的字：Creatives Team Night → CRTV 餐敘；禱告工作坊：台前禱告 → 禱告工作坊",
+  "ops": [
+    {"op": "update", "match": {"id": "crtv-team-night-1114"}, "set": {"calLabel": "CRTV 餐敘"}},
+    {"op": "update", "match": {"id": "prayer-workshop-1118"}, "set": {"calLabel": "禱告工作坊"}}
+  ]
+}
