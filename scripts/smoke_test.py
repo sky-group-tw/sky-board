@@ -42,15 +42,16 @@ async def check(browser, name, viewport, scale, out):
     ics = await page.evaluate("fetch('ics/sky-calendar.ics',{cache:'no-store'}).then(r => r.status)")
     info["subscribeFeedStatus"] = ics
     await page.screenshot(path=str(out / f"{name}.png"), full_page=True)
-    if name == "desktop":  # 電腦版另外拍月曆（手機版月曆只顯示圓點）
-        try:
-            await page.click("#view-cal")
-            await page.wait_for_selector("#calendar-view .cal", timeout=10000)
-            await page.wait_for_timeout(1500)
+    # 另外拍月曆（calendar.png＝電腦版、calendar-mobile.png＝手機版）
+    try:
+        await page.click("#view-cal")
+        await page.wait_for_selector("#calendar-view .cal", timeout=10000)
+        await page.wait_for_timeout(1500)
+        if name == "desktop":
             info["calendarLabels"] = await page.evaluate("[...document.querySelectorAll('#calendar-view .cell .ev')].map(x => x.closest('.cell').dataset.day.slice(5) + ' ' + x.textContent)")
-            await page.screenshot(path=str(out / "calendar.png"), full_page=True)
-        except Exception as x:  # noqa: BLE001
-            errors.append("月曆打不開：" + str(x)[:200])
+        await page.screenshot(path=str(out / ("calendar.png" if name == "desktop" else "calendar-mobile.png")), full_page=True)
+    except Exception as x:  # noqa: BLE001
+        errors.append("月曆打不開：" + str(x)[:200])
     await ctx.close()
     if "載入不了" in info["boardText"]:
         errors.append("公布欄顯示「活動資料暫時載入不了」")
