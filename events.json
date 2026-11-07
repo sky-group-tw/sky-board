@@ -1,0 +1,287 @@
+[
+ {
+  "id": "campus-night-1106",
+  "status": "confirmed",
+  "deadline": null,
+  "category": "全教會",
+  "tips": [
+   "記得帶紙本聖經"
+  ],
+  "desc": "我們很習慣融入群體，神卻呼召我們活得與眾不同。Pastor Steven 會分享未來的聚會場地與交通資訊，並帶大家研讀整卷《哈巴谷書》。",
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "checkin": "18:30 進場",
+  "location": "台北分部 Main Hall",
+  "noSignupText": "免報名，直接來",
+  "endDate": "2026-11-06",
+  "updatedAt": 1793953851603,
+  "kind": "event",
+  "date": "2026-11-06",
+  "images": [
+   {
+    "caption": "",
+    "ratio": "",
+    "id": "img-campus-night"
+   }
+  ],
+  "title": "台北分部之夜 Campus Night",
+  "start": "19:00",
+  "end": "21:00"
+ },
+ {
+  "id": "note-20261107-r0w4",
+  "status": "confirmed",
+  "updatedAt": 1794020712593,
+  "deadline": null,
+  "kind": "notice",
+  "category": "小組",
+  "tips": [],
+  "date": "2026-11-07",
+  "images": [],
+  "until": "2026-12-06",
+  "title": "12 月起，小組聚會地點會跟著教會新場地調整，11 月底前公布。",
+  "start": "00:00",
+  "end": "23:59",
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "endDate": "2026-12-06"
+ },
+ {
+  "id": "sky-1108",
+  "status": "confirmed",
+  "updatedAt": 1794017887268,
+  "deadline": null,
+  "kind": "meeting",
+  "category": "小組",
+  "tips": [],
+  "date": "2026-11-08",
+  "images": [],
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "title": "Sky 小組聚會",
+  "endDate": "2026-11-08",
+  "end": "18:00",
+  "location": "華視-玻璃屋",
+  "start": "16:00"
+ },
+ {
+  "id": "there-is-more-2026",
+  "status": "confirmed",
+  "deadline": null,
+  "category": "全教會",
+  "tips": [],
+  "desc": "我們不只要感謝神過去寫下的故事，更要在新的一年，一起回應神放在我們心中的 Yes!",
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "allDay": true,
+  "location": "每週主日",
+  "noSignupText": "每週主日一起來聽",
+  "endDate": "2026-12-05",
+  "updatedAt": 1794021007703,
+  "kind": "series",
+  "date": "2026-11-14",
+  "images": [
+   {
+    "caption": "",
+    "ratio": "natural",
+    "id": "img-there-is-more"
+   }
+  ],
+  "repeatText": "每週主日・全日",
+  "title": "《THERE IS MORE》2026 Forward 年終系列講道",
+  "until": "2026-12-05",
+  "start": "00:00",
+  "end": "23:59",
+  "weekday": 0
+ },
+ {
+  "id": "crtv-team-night-1114",
+  "status": "confirmed",
+  "deadline": null,
+  "tips": [],
+  "dressCode": "全黑（衣櫃裡一定有的那套）",
+  "category": "同工",
+  "desc": "再不到一個月就要搬到新場地了。搬家前，邀請所有創意團隊的夥伴一起吃飯、聊天、獻上感謝，也想聽聽大家的心聲，回答大家的問題。報名時可以留下你的疑問。",
+  "signup": {
+   "label": "報名表（Paperform）",
+   "url": "",
+   "public": false
+  },
+  "updatedAt": 1794022559238,
+  "endDate": "2026-11-14",
+  "location": "華視-玻璃屋",
+  "restrictedText": "注意報名時間，報名連結請至團隊群組",
+  "kind": "event",
+  "date": "2026-11-14",
+  "images": [
+   {
+    "caption": "",
+    "ratio": "",
+    "id": "img-crtv-team-night"
+   }
+  ],
+  "calLabel": "CRTV 餐敘",
+  "title": "Creatives Team Night 感恩餐敘",
+  "start": "18:00",
+  "end": "21:00",
+  "audience": "限 Creatives Team（worship、choir、dance、production、audio）"
+ },
+ {
+  "id": "sky-1115",
+  "status": "confirmed",
+  "deadline": null,
+  "category": "小組",
+  "tips": [],
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "updatedAt": 1793953854088,
+  "location": "THC 大樓（電梯至 11F）",
+  "endDate": "2026-11-15",
+  "mapUrl": "https://maps.app.goo.gl/85mnDa3dseTmE1DZ6",
+  "kind": "meeting",
+  "note": "時間跟平常不同",
+  "date": "2026-11-15",
+  "images": [],
+  "title": "Sky 小組聚會",
+  "start": "16:50",
+  "end": "19:00"
+ },
+ {
+  "id": "prayer-workshop-1118",
+  "status": "confirmed",
+  "deadline": null,
+  "tips": [
+   "這次是線上課程"
+  ],
+  "category": "同工",
+  "desc": "認識台前為人禱告的重要原則與注意事項，學習在回應講道、祝福禱告、醫治禱告等不同情境中，用愛心、智慧與信心服事人。",
+  "signup": {
+   "label": "課程報名",
+   "url": "",
+   "public": false
+  },
+  "updatedAt": 1794022559238,
+  "endDate": "2026-11-18",
+  "location": "線上 Zoom 課程",
+  "restrictedText": "副手或組員願意操練，可詢問組長 Sonia",
+  "kind": "event",
+  "date": "2026-11-18",
+  "images": [
+   {
+    "caption": "",
+    "ratio": "",
+    "id": "img-prayer-workshop"
+   }
+  ],
+  "calLabel": "禱告工作坊",
+  "title": "禱告工作坊：台前禱告",
+  "start": "19:30",
+  "end": "21:00",
+  "audience": "限小組長、區長"
+ },
+ {
+  "id": "appreciation-party-1120",
+  "status": "confirmed",
+  "deadline": {
+   "date": "2026-11-07",
+   "text": "11/7 前填表（若不參加退款也只到 11/7）"
+  },
+  "category": "同工",
+  "tips": [
+   "場地不提供停車折抵，建議搭大眾運輸",
+   "不管之前有沒有報名、這次能不能來，都要在 11/7 前填表；沒填表的人會被當作「不參加、不退費」"
+  ],
+  "dressCode": "墨鏡，什麼風格都歡迎",
+  "desc": "感恩派對改到 11/20 舉行！一起吃飯、聊天、Have Fun。",
+  "address": "台北市中正區思源街 16 號 2 樓",
+  "checkin": "18:30 開始報到",
+  "location": "公館薪僑園水源婚宴會館・牡丹廳",
+  "signup": {
+   "public": false,
+   "url": "",
+   "label": "填寫確認表單"
+  },
+  "endDate": "2026-11-20",
+  "updatedAt": 1794021069450,
+  "mapUrl": "https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E6%AD%A3%E5%8D%80%E6%80%9D%E6%BA%90%E8%A1%9716%E8%99%9F",
+  "restrictedText": "表單連結請詢問組長 Sonia",
+  "kind": "event",
+  "endUnknown": false,
+  "date": "2026-11-20",
+  "images": [
+   {
+    "caption": "",
+    "ratio": "",
+    "id": "img-appreciation-party"
+   },
+   {
+    "caption": "Dress code：墨鏡",
+    "ratio": "",
+    "id": "img-appreciation-dresscode"
+   }
+  ],
+  "title": "感恩派對 Appreciation Party",
+  "start": "19:00",
+  "end": "21:00",
+  "audience": "限同工（不限團隊）"
+ },
+ {
+  "id": "sky-1122",
+  "status": "tbd",
+  "deadline": null,
+  "kind": "meeting",
+  "tips": [],
+  "category": "小組",
+  "date": "2026-11-22",
+  "note": "因組長和大部分組員有其他安排，會討論是否改時間或暫停",
+  "images": [],
+  "title": "Sky 小組聚會",
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "start": "16:00",
+  "end": "18:00",
+  "endDate": "2026-11-22",
+  "updatedAt": 1794020750691
+ },
+ {
+  "id": "sky-1129",
+  "status": "confirmed",
+  "deadline": null,
+  "category": "小組",
+  "tips": [],
+  "signup": {
+   "public": true,
+   "url": "",
+   "label": ""
+  },
+  "updatedAt": 1793953854258,
+  "location": "THC 大樓（電梯至 11F）",
+  "endDate": "2026-11-29",
+  "mapUrl": "https://maps.app.goo.gl/85mnDa3dseTmE1DZ6",
+  "kind": "meeting",
+  "note": "時間跟平常不同",
+  "date": "2026-11-29",
+  "images": [],
+  "title": "Sky 小組聚會",
+  "start": "16:50",
+  "end": "19:00"
+ }
+]

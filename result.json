@@ -1,0 +1,147 @@
+{
+ "ranAt": "2026-11-07 11:35（台北）",
+ "ok": true,
+ "files": [
+  {
+   "file": "data/edits/2026-11-07-cal-labels.json",
+   "note": "月曆上顯示的字：Creatives Team Night → CRTV 餐敘；禱告工作坊：台前禱告 → 禱告工作坊",
+   "dryRun": false,
+   "steps": [
+    {
+     "op": "update",
+     "id": "crtv-team-night-1114",
+     "before": {
+      "status": "confirmed",
+      "deadline": null,
+      "tips": [],
+      "category": "同工",
+      "dressCode": "全黑（衣櫃裡一定有的那套）",
+      "desc": "再不到一個月就要搬到新場地了。搬家前，邀請所有創意團隊的夥伴一起吃飯、聊天、獻上感謝，也想聽聽大家的心聲，回答大家的問題。報名時可以留下你的疑問。",
+      "signup": {
+       "public": false,
+       "url": "",
+       "label": "報名表（Paperform）"
+      },
+      "updatedAt": 1794017887268,
+      "location": "華視-玻璃屋",
+      "endDate": "2026-11-14",
+      "restrictedText": "注意報名時間，報名連結請至團隊群組",
+      "kind": "event",
+      "date": "2026-11-14",
+      "images": [
+       {
+        "caption": "",
+        "ratio": "",
+        "id": "img-crtv-team-night"
+       }
+      ],
+      "title": "Creatives Team Night 感恩餐敘",
+      "start": "18:00",
+      "audience": "限 Creatives Team（worship、choir、dance、production、audio）",
+      "end": "21:00"
+     },
+     "after": {
+      "status": "confirmed",
+      "tips": [],
+      "category": "同工",
+      "dressCode": "全黑（衣櫃裡一定有的那套）",
+      "desc": "再不到一個月就要搬到新場地了。搬家前，邀請所有創意團隊的夥伴一起吃飯、聊天、獻上感謝，也想聽聽大家的心聲，回答大家的問題。報名時可以留下你的疑問。",
+      "signup": {
+       "public": false,
+       "url": "",
+       "label": "報名表（Paperform）"
+      },
+      "updatedAt": 1794022559238,
+      "location": "華視-玻璃屋",
+      "endDate": "2026-11-14",
+      "restrictedText": "注意報名時間，報名連結請至團隊群組",
+      "kind": "event",
+      "date": "2026-11-14",
+      "images": [
+       {
+        "caption": "",
+        "ratio": "",
+        "id": "img-crtv-team-night"
+       }
+      ],
+      "title": "Creatives Team Night 感恩餐敘",
+      "start": "18:00",
+      "audience": "限 Creatives Team（worship、choir、dance、production、audio）",
+      "end": "21:00",
+      "calLabel": "CRTV 餐敘",
+      "deadline": null
+     }
+    },
+    {
+     "op": "update",
+     "id": "prayer-workshop-1118",
+     "before": {
+      "status": "confirmed",
+      "deadline": null,
+      "category": "同工",
+      "tips": [
+       "這次是線上課程"
+      ],
+      "desc": "認識台前為人禱告的重要原則與注意事項，學習在回應講道、祝福禱告、醫治禱告等不同情境中，用愛心、智慧與信心服事人。",
+      "signup": {
+       "public": false,
+       "url": "",
+       "label": "課程報名"
+      },
+      "updatedAt": 1793953853703,
+      "location": "線上 Zoom 課程",
+      "endDate": "2026-11-18",
+      "restrictedText": "副手或組員願意操練，可詢問組長 Sonia",
+      "kind": "event",
+      "date": "2026-11-18",
+      "images": [
+       {
+        "caption": "",
+        "ratio": "",
+        "id": "img-prayer-workshop"
+       }
+      ],
+      "title": "禱告工作坊：台前禱告",
+      "start": "19:30",
+      "end": "21:00",
+      "audience": "限小組長、區長"
+     },
+     "after": {
+      "status": "confirmed",
+      "category": "同工",
+      "tips": [
+       "這次是線上課程"
+      ],
+      "desc": "認識台前為人禱告的重要原則與注意事項，學習在回應講道、祝福禱告、醫治禱告等不同情境中，用愛心、智慧與信心服事人。",
+      "signup": {
+       "public": false,
+       "url": "",
+       "label": "課程報名"
+      },
+      "updatedAt": 1794022559238,
+      "location": "線上 Zoom 課程",
+      "endDate": "2026-11-18",
+      "restrictedText": "副手或組員願意操練，可詢問組長 Sonia",
+      "kind": "event",
+      "date": "2026-11-18",
+      "images": [
+       {
+        "caption": "",
+        "ratio": "",
+        "id": "img-prayer-workshop"
+       }
+      ],
+      "title": "禱告工作坊：台前禱告",
+      "start": "19:30",
+      "end": "21:00",
+      "audience": "限小組長、區長",
+      "calLabel": "禱告工作坊",
+      "deadline": null
+     }
+    }
+   ],
+   "ok": true
+  }
+ ],
+ "eventCount": 10
+}
