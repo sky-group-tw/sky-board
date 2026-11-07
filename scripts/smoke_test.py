@@ -21,7 +21,9 @@ async def check(browser, name, viewport, scale, out):
     page = await ctx.new_page()
     page.on("pageerror", lambda e: errors.append("頁面錯誤：" + str(e)))
     page.on("console", lambda m: errors.append("主控台：" + m.text) if m.type == "error" else None)
-    page.on("requestfailed", lambda r: errors.append("載入失敗：" + r.url[:120]))
+    # Firestore 的即時連線（Listen/channel）在關頁面時會被切斷，不算錯誤
+    page.on("requestfailed", lambda r: None if "Firestore/Listen/channel" in r.url
+            else errors.append("載入失敗：" + r.url[:120]))
     await page.goto(URL + "?t=" + str(int(time.time())), wait_until="load", timeout=60000)
     # Firestore 會一直保持連線，所以不能等「網路安靜」；改成等畫面出現活動或提示
     try:
