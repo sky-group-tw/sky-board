@@ -29,6 +29,14 @@ Firestore 集合：
 - `js/app.js` 進入點、`js/board.js` 公開版、`js/admin.js` 後台、`js/store.js` Firebase、`js/model.js` 資料規則
 - `scripts/build_ics.py` 產生行事曆檔
 - `.github/workflows/pages.yml` 部署＋每小時排程
+- `.github/workflows/data.yml`＋`scripts/edit_data.py` 用修改單改資料（見下方）
+
+## 不登入後台改資料（修改單）
+- 把修改單（JSON）放進 `data/edits/` push 到 main，Actions「Edit data」會照著改 Firestore，改完自動重新部署
+- 格式和規則寫在 `scripts/edit_data.py` 最上面；條件要剛好對到 1 筆，否則整張不執行
+- 只能改公開欄位；限定報名連結、Zoom、海報仍然在後台改（修改單在公開儲存庫，任何人看得到）
+- 結果在 `data-log` 分支（`result.json` 改了什麼＋改之前的值、`events.txt` 目前所有資料）
+- 金鑰：GitHub Secret `FIREBASE_SERVICE_ACCOUNT`，服務帳戶 `sky-board-editor`，角色只有「Cloud Datastore 使用者」
 
 ## 注意
 - 公開儲存庫：**不要**把含報名連結／Zoom 的匯入檔或備份檔放進來

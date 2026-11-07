@@ -7,6 +7,8 @@ name: Deploy board
 on:
   push:
     branches: [main]
+    # 只有修改單的 push 交給 Edit data 處理，它改完資料會再觸發這裡
+    paths-ignore: ["data/edits/**"]
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
