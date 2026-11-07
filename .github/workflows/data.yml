@@ -54,8 +54,7 @@ jobs:
         id: apply
         continue-on-error: true
         env:
-          # 名稱兩種都讀（11/7 說明裡曾把名稱拼錯成 ACCUNT）
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCUNT }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           if [ -n "${{ steps.files.outputs.list }}" ]; then
             python3 scripts/edit_data.py apply ${{ steps.files.outputs.list }} --out out
