@@ -43,7 +43,7 @@ TPE = timezone(timedelta(hours=8))
 EDITABLE = {
     "kind", "title", "category", "audience", "date", "until", "weekday", "start", "end", "endUnknown", "allDay",
     "repeatText", "checkin", "location", "address", "mapUrl", "desc", "tips", "dressCode", "restrictedText",
-    "noSignupText", "deadline", "status", "note",
+    "noSignupText", "deadline", "status", "note", "calLabel",
 }
 KINDS = {"event", "series", "meeting", "notice"}
 

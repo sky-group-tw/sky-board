@@ -37,7 +37,7 @@ export function endDateOf(e) { return e.kind === "series" || e.kind === "notice"
 const PUBLIC_FIELDS = [
   "kind", "title", "category", "audience", "date", "until", "weekday", "start", "end", "endUnknown", "allDay",
   "repeatText", "checkin", "location", "address", "mapUrl", "desc", "tips", "dressCode", "restrictedText",
-  "noSignupText", "deadline", "status", "note", "images"
+  "noSignupText", "deadline", "status", "note", "images", "calLabel"
 ];
 
 export function toPublic(full) {
@@ -91,6 +91,14 @@ export function weekLabel(date) {
   return "";
 }
 function ymdArr(s) { const p = parts(s); return [p.y, p.m - 1, p.d]; }
+
+// 月曆格子上顯示的字：後台有填就用填的，沒填照預設
+export function calLabel(e) {
+  if (e.calLabel) return e.calLabel;
+  if (e.kind === "meeting") return "小組" + (e.status === "tbd" ? "（待定）" : "");
+  if (e.kind === "series") return "系列講道";
+  return e.title;
+}
 
 // 站外分享（LINE 內建瀏覽器改開外部瀏覽器）
 export function shareUrl() {

@@ -102,7 +102,7 @@ function blank(kind) {
   const base = {
     id: "", kind, title: kind === "meeting" ? "Sky 小組聚會" : "", category: kind === "meeting" ? "小組" : "全教會",
     audience: "", date: "", start: kind === "meeting" ? "16:00" : "19:00", end: kind === "meeting" ? "18:00" : "21:00",
-    checkin: "", location: "", address: "", mapUrl: "", desc: "", tips: [], dressCode: "", note: "",
+    calLabel: "", checkin: "", location: "", address: "", mapUrl: "", desc: "", tips: [], dressCode: "", note: "",
     signup: { url: "", label: "", public: true }, restrictedText: "", noSignupText: "", deadline: null,
     status: "confirmed", images: [], private: { zoom: "", flags: [], announcement: "" }
   };
@@ -133,6 +133,8 @@ function formHtml(e) {
   }
   h += '<fieldset><legend>基本</legend>';
   h += f("標題", inp("title", e.title, "text", ' required'));
+  h += f("月曆上顯示的字", inp("calLabel", e.calLabel, "text", ' maxlength="12" placeholder="' + esc(k === "meeting" ? "小組" : k === "series" ? "系列講道" : "（空白＝顯示標題）") + '"'),
+    "電腦版月曆格子裡的字，建議 6 個字內；空白＝自動");
   if (k !== "meeting") {
     h += '<div class="two">' + f("分類", '<select name="category">' + CATEGORIES.map(c => '<option' + (c === e.category ? ' selected' : '') + '>' + c + '</option>').join("") + '</select>') +
       f("對象（限定活動才寫）", inp("audience", e.audience), "例：限小組長、區長") + '</div>';
@@ -247,6 +249,7 @@ function readForm() {
   }
   if (v("location") !== undefined) e.location = v("location");
   if (v("address") !== undefined) e.address = v("address");
+  if (v("calLabel") !== undefined) e.calLabel = v("calLabel");
   if (v("mapUrl") !== undefined) e.mapUrl = v("mapUrl");
   if (v("note") !== undefined) e.note = v("note");
   if (e.kind !== "meeting") {

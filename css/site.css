@@ -285,7 +285,7 @@ legend { font-family: var(--font-display); font-weight: 800; font-size: 13px; le
 
 /* ---------- 11/6 晚：官方連結、卡片對齊、詳情、公告、主畫面 ---------- */
 .btn-hope { background: var(--ink); color: #fff; border-color: var(--ink); }
-.btn-hope img { height: 13px; width: auto; }
+.btn-hope img { height: 18px; width: auto; }
 .btn-hope:hover { filter: brightness(1.2); }
 .muted { color: var(--muted); }
 

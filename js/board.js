@@ -1,7 +1,7 @@
 // 公開版公布欄（組員看到的畫面）
 import { loadImage } from "./store.js";
 import {
-  WD, parts, epoch, startMs, endMs, weekday, todayTPE, ymd, daysUntil, esc, weekLabel
+  WD, parts, epoch, startMs, endMs, weekday, todayTPE, ymd, daysUntil, esc, weekLabel, calLabel
 } from "./model.js";
 
 const CATS = { "全教會": "var(--cat-all)", "同工": "var(--cat-staff)", "小組": "var(--cat-group)" };
@@ -203,7 +203,7 @@ function renderCalendar() {
     const key = ymd(o), evs = vis.filter(e => occursOn(e, key)); byDay[key] = evs;
     html += '<button type="button" class="cell' + (o.m !== m ? ' out' : '') + (key === today ? ' today' : '') + '" data-day="' + key + '" aria-pressed="' + (state.selDay === key) + '" aria-label="' + o.m + '月' + o.d + '日' + (evs.length ? '，' + evs.length + ' 個行程' : '') + '">' +
       '<span class="n">' + o.d + '</span>' +
-      evs.map(e => '<span class="ev' + (e.status === "tbd" ? ' tbd' : '') + '" style="--c:' + catColor(e.category) + '">' + esc(e.kind === "meeting" ? "小組" + (e.status === "tbd" ? "（待定）" : "") : e.kind === "series" ? "系列講道" : e.title) + '</span>').join("") +
+      evs.map(e => '<span class="ev' + (e.status === "tbd" ? ' tbd' : '') + '" style="--c:' + catColor(e.category) + '">' + esc(calLabel(e)) + '</span>').join("") +
       (evs.length ? '<span class="dots">' + evs.map(e => '<span class="dot" style="--c:' + catColor(e.category) + '"></span>').join("") + '</span>' : '') +
       '</button>';
   }
