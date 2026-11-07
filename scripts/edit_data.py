@@ -234,9 +234,10 @@ def main(argv):
     try:
         store = FirestoreStore()
         for f in files:
-            edit = json.loads(Path(f).read_text(encoding="utf-8"))
-            entry = {"file": f, "note": edit.get("note", ""), "dryRun": bool(edit.get("dryRun"))}
+            entry = {"file": f}
             try:
+                edit = json.loads(Path(f).read_text(encoding="utf-8"))
+                entry.update(note=edit.get("note", ""), dryRun=bool(edit.get("dryRun")))
                 steps = plan(store, edit)
                 if not edit.get("dryRun"):
                     execute(store, steps)
@@ -245,10 +246,13 @@ def main(argv):
             except EditError as e:
                 entry["ok"], entry["error"] = False, str(e)
                 report["ok"] = False
+            except Exception as e:  # 其他意外（檔案不見、JSON 寫錯）也要留紀錄
+                entry["ok"], entry["error"] = False, f"{type(e).__name__}: {e}"
+                report["ok"] = False
             report["files"].append(entry)
         report["eventCount"] = write_snapshot(store, out)
-    except EditError as e:
-        report["ok"], report["error"] = False, str(e)
+    except Exception as e:
+        report["ok"], report["error"] = False, f"{type(e).__name__}: {e}" if not isinstance(e, EditError) else str(e)
     (out / "result.json").write_text(json.dumps(report, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=1, default=str))
     return 0 if report["ok"] else 1
