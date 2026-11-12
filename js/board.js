@@ -151,7 +151,7 @@ function meet(m, isNext) {
 // 主日聚會（台北分部，12/5 起的新時間）。長期資訊，直接寫在這裡；場地名稱確定後補 SUNDAY.place
 const SUNDAY = {
   from: "2026-12-05",
-  mapUrl: "https://maps.app.goo.gl/gp3awQLB2mWTyizq7",
+  mapUrl: "https://maps.app.goo.gl/uAmUwxU3TkuPeUUm8",
   place: "",
   days: [
     { wd: "週六", slots: [["14:00", "雙語 Bilingual"], ["16:00", "全中文"]] },
