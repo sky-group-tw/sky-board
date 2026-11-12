@@ -328,3 +328,26 @@ legend { font-family: var(--font-display); font-weight: 800; font-size: 13px; le
 .stepn { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-weight: 800; font-family: var(--font-display); }
 .subscribe .btn { min-height: 42px; }
 .stepn + span b { display: inline; }
+
+/* ---------- 方向 C：日期色帶 ---------- */
+.card { border-radius: 16px; }
+.band { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 14px 0 18px; background: var(--c, var(--muted)); color: var(--ink); }
+.band .cat { font-size: 12px; font-weight: 900; color: var(--ink); line-height: 18px; padding-right: 10px; border-right: 1.5px solid rgba(29,41,46,.35); white-space: nowrap; }
+.band .d { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.band .p { margin-left: auto; background: var(--ink); color: var(--accent); font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+.card.past .band { background: var(--line); }
+.card.past .band .p { background: var(--muted); color: #fff; }
+.card-body { padding-top: 14px; }
+
+/* 報名截止：改成墨綠底黃字的狀態膠囊，不再用橘紅 */
+.card .deadline, .detail-body .deadline { align-self: flex-start; background: var(--ink); color: var(--accent); border: 0; border-radius: 999px; padding: 6px 14px; font-size: 13px; }
+
+/* 鍵盤焦點外框：黃色在白底看不見，改墨綠；深色導覽列上用白色 */
+:focus-visible { outline-color: var(--ink); }
+.brandbar :focus-visible { outline-color: #fff; }
+
+/* 橘紅提醒色退場：公開版不再使用規範外的顏色 */
+.meet .note { color: var(--ink); }
+.cal-dow.sun { color: var(--ink); }
+/* 說明清單小圓點：裝飾不用黃色 */
+.tips li::before { background: var(--muted); }

@@ -68,7 +68,7 @@ function signupBlock(e, past, inSheet) {
 function deadlineHtml(e, past) {
   if (!e.deadline || !e.deadline.date || past) return "";
   const n = daysUntil(e.deadline.date);
-  return n >= 0 ? '<div class="deadline">⚠ ' + esc(e.deadline.text) + '（' + relDay(n).replace("還有 ", "剩 ") + '）</div>' : "";
+  return n >= 0 ? '<div class="deadline">' + esc(e.deadline.text) + '（' + relDay(n).replace("還有 ", "剩 ") + '）</div>' : "";
 }
 function coverHtml(im, cls, label) {
   return '<span class="' + cls + '"><img class="bg" data-img="' + esc(im.id) + '" alt="" aria-hidden="true"><img class="fg" data-img="' + esc(im.id) + '" alt="' + esc(label) + '"></span>';
@@ -86,9 +86,8 @@ function card(e, past) {
     '<button type="button" class="card-hit" data-detail="' + esc(e.id) + '" aria-label="看「' + esc(e.title) + '」詳情">' +
       (main ? coverHtml(main, "card-img", e.title + " 活動圖") : '<span class="card-img noimg"><span>' + esc(e.title) + '</span></span>') +
     '</button>' +
+    '<div class="band" style="--c:' + catColor(e.category) + '"><span class="cat">' + esc(e.category) + '</span><span class="d">' + p.m + '/' + p.d + (e.kind === "series" ? ' 起' : ' 週' + WD[weekday(e.date)]) + '</span><span class="p">' + whenText(e, past) + '</span></div>' +
     '<div class="card-body">' +
-      '<div class="when-row"><span class="d">' + p.m + '/' + p.d + (e.kind === "series" ? ' 起' : ' 週' + WD[weekday(e.date)]) + '</span><span class="p">' + whenText(e, past) + '</span>' +
-        '<span class="cat"><span class="dot" style="--c:' + catColor(e.category) + '"></span>' + esc(e.category) + '</span></div>' +
       '<h3>' + esc(e.title) + '</h3>' +
       '<ul class="meta">' +
         '<li>' + I_TIME + '<span>' + (e.kind === "series" ? esc(e.repeatText || "") : timeLabel(e)) + '</span></li>' +
