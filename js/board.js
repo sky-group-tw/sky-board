@@ -148,6 +148,30 @@ function meet(m, isNext) {
     '</div>';
 }
 
+// 主日聚會（台北分部，12/5 起的新時間）。長期資訊，直接寫在這裡；場地名稱確定後補 SUNDAY.place
+const SUNDAY = {
+  from: "2026-12-05",
+  mapUrl: "https://maps.app.goo.gl/gp3awQLB2mWTyizq7",
+  place: "",
+  days: [
+    { wd: "週六", slots: [["14:00", "雙語 Bilingual"], ["16:00", "全中文"]] },
+    { wd: "週日", slots: [["09:30", "全中文"], ["11:30", "全中文"]] }
+  ]
+};
+function sundayHtml(today) {
+  const p = parts(SUNDAY.from);
+  const sub = "台北分部" + (today < SUNDAY.from ? "・" + p.m + "/" + p.d + "（" + WD[weekday(SUNDAY.from)] + "）起新時間" : "");
+  return '<div class="section-head"><h2>主日聚會</h2><span class="count">' + sub + '</span></div>' +
+    '<div class="meets sunday">' + SUNDAY.days.map(d =>
+      '<div class="meet">' +
+        '<div class="when"><span class="md">' + d.wd + '</span></div>' +
+        d.slots.map(s => '<div class="slot"><span class="t">' + s[0] + '</span><span>' + esc(s[1]) + '</span></div>').join("") +
+        (SUNDAY.place ? '<div class="place">' + esc(SUNDAY.place) + '</div>' : '') +
+        '<div class="row"><a class="btn btn-ghost btn-sm" href="' + esc(SUNDAY.mapUrl) + '" target="_blank" rel="noopener">地圖</a></div>' +
+      '</div>').join("") +
+    '</div>';
+}
+
 function visible(kind) {
   return ALL.filter(e => (kind ? e.kind === kind : e.kind !== "notice") && (state.cat === "全部" || e.category === state.cat))
     .sort((a, b) => startMs(a) - startMs(b));
@@ -168,6 +192,7 @@ function renderBoard() {
     html += notes.map(n => '<div class="notice"><span class="ps">P.S.</span><p>' + esc(n.title) + '</p></div>').join("");
     html += '<div class="meets">' + meets.map(m => meet(m, m.id === nextId)).join("") + '</div>';
   }
+  if (state.cat === "全部" || state.cat === "全教會") html += sundayHtml(today);
   const evs = visible().filter(e => e.kind !== "meeting");
   const up = evs.filter(e => endMs(e) > now);
   const past = evs.filter(e => endMs(e) <= now).reverse();

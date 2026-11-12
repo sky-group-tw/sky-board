@@ -351,3 +351,9 @@ legend { font-family: var(--font-display); font-weight: 800; font-size: 13px; le
 .cal-dow.sun { color: var(--ink); }
 /* 說明清單小圓點：裝飾不用黃色 */
 .tips li::before { background: var(--muted); }
+
+/* 主日聚會（台北分部）：沿用小組聚會方塊，邊條用全教會色 */
+.meets.sunday .meet { border-left-color: var(--cat-all); }
+.meets.sunday .md { font-family: var(--font-body); font-size: 20px; font-weight: 900; }
+.meets.sunday .slot { display: flex; gap: 12px; align-items: baseline; }
+.meets.sunday .slot .t { min-width: 3.2em; }
