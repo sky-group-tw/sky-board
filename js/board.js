@@ -152,7 +152,7 @@ function meet(m, isNext) {
 const SUNDAY = {
   from: "2026-12-05",
   mapUrl: "https://maps.app.goo.gl/uAmUwxU3TkuPeUUm8",
-  place: "",
+  place: "The Hope 台北分部（新場地）",
   days: [
     { wd: "週六", slots: [["14:00", "雙語 Bilingual"], ["16:00", "全中文"]] },
     { wd: "週日", slots: [["09:30", "全中文"], ["11:30", "全中文"]] }
